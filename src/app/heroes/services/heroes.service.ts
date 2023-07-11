@@ -8,6 +8,7 @@ import {
   AllHeroesInterface,
   FoundHero,
 } from '../interfaces/allHeroes.interface';
+import { CreateHeroResInterface } from '../interfaces/createHeroRes.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -55,10 +56,16 @@ export class HeroesService {
 
   addCharacter(hero: HeroInterface): Observable<HeroInterface> {
     // * , hero will act as my Body (think of postman!!).
-    return this.http.post<HeroInterface>(
-      `${this.baseUrl}/api/heroes/createHero`,
-      this.heroWithOutIdProp(hero)
-    );
+    return this.http
+      .post<CreateHeroResInterface>(
+        `${this.baseUrl}/api/heroes/createHero`,
+        this.heroWithOutIdProp(hero)
+      )
+      .pipe(
+        map((res) => {
+          return res.savedHero;
+        })
+      );
   }
 
   updateCharacter(hero: HeroInterface): Observable<HeroInterface> {

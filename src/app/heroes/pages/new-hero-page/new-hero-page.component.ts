@@ -78,6 +78,7 @@ export class NewHeroPageComponent implements OnInit {
 
   get currentHero(): HeroInterface {
     const hero = this.myForm.value;
+
     return hero;
   }
 
@@ -108,6 +109,11 @@ export class NewHeroPageComponent implements OnInit {
     // ! CREATE
     return this.heroesService
       .addCharacter(this.currentHero)
+      .pipe(
+        tap((hero) => {
+          console.log('aaaaa', hero);
+        })
+      )
       .subscribe((hero) => {
         // * pop up message:
         this.snackbarHandler(

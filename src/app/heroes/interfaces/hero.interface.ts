@@ -8,6 +8,5 @@ export interface HeroInterface {
   firstAppearance: string;
   characters: string;
   photo?: string;
-  userId: string;
   // __v:             number;
 }
