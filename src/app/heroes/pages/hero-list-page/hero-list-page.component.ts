@@ -1,6 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { HeroInterface } from '../../interfaces/hero.interface';
 import { HeroesService } from '../../services/heroes.service';
+import { HeroRes, SavedHero } from '../../interfaces/heroRes.interface';
+import { map } from 'rxjs';
+import { HeroInterface } from '../../interfaces/hero.interface';
+import { FoundHero } from '../../interfaces/allHeroes.interface';
 
 @Component({
   selector: 'app-hero-list-page',
@@ -9,13 +12,13 @@ import { HeroesService } from '../../services/heroes.service';
 })
 export class HeroListPageComponent implements OnInit {
   private heroesService = inject(HeroesService);
-  public heroes: HeroInterface[] = [];
-
+  public heroes: FoundHero[] = [];
   ngOnInit(): void {
     this.heroesService.getHeroes().subscribe((response) => {
       this.heroes = response;
+      console.log('response =>', response);
 
-      return console.log(this.heroes);
+      return console.log('xxxxx', this.heroes);
     });
   }
 }

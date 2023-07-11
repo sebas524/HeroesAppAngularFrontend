@@ -3,6 +3,11 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 import { HeroInterface } from '../interfaces/hero.interface';
 import { environments } from 'src/app/environments/environments';
+import { HeroRes, SavedHero } from '../interfaces/heroRes.interface';
+import {
+  AllHeroesInterface,
+  FoundHero,
+} from '../interfaces/allHeroes.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +28,14 @@ export class HeroesService {
     };
   }
 
-  getHeroes(): Observable<HeroInterface[]> {
-    return this.http.get<HeroInterface[]>(`${this.baseUrl}/api/hero`);
+  getHeroes(): Observable<FoundHero[]> {
+    return this.http
+      .get<AllHeroesInterface>(`${this.baseUrl}/api/heroes/allHeroes`)
+      .pipe(
+        map((res) => {
+          return res.foundHeroes;
+        })
+      );
   }
 
   getHeroById(id: string): Observable<HeroInterface | undefined> {
@@ -45,7 +56,7 @@ export class HeroesService {
   addCharacter(hero: HeroInterface): Observable<HeroInterface> {
     // * , hero will act as my Body (think of postman!!).
     return this.http.post<HeroInterface>(
-      `${this.baseUrl}/api/hero`,
+      `${this.baseUrl}/api/heroes/createHero`,
       this.heroWithOutIdProp(hero)
     );
   }
