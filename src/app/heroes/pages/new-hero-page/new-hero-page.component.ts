@@ -89,7 +89,7 @@ export class NewHeroPageComponent implements OnInit {
 
     // * remeber that ngOnInit already has logic to see if you are editing or creating new hero. so now, if editing, then  update method, else:  create method:
     // * IMPORTANT: in order for this to work, _id must also be part of myForm, but when sending current hero as argument for the updateCharacter or any other CRUD method, we cannot send current hero with id included, because that id is not part of the body(backend creates an automatic mongoid once the hero has been created), and it will give you the error you where trying to solve for a while. that is why on heroes service i also created a body with all properties except for the _id one.
-    if (this.currentHero._id) {
+    if (this.currentHero.id) {
       // ! UPDATE
       return this.heroesService
         .updateCharacter(this.currentHero)
@@ -125,7 +125,7 @@ export class NewHeroPageComponent implements OnInit {
   }
 
   onDelete() {
-    if (!this.currentHero._id) {
+    if (!this.currentHero.id) {
       throw Error('Hero id is required!');
     }
     console.log('onDelete log =>', this.currentHero);
@@ -147,7 +147,7 @@ export class NewHeroPageComponent implements OnInit {
         }),
         // * since we know its true, then that means the user wants to delete it. therefore we switchmap it:
         switchMap((result) => {
-          return this.heroesService.deleteCharacter(this.currentHero._id!);
+          return this.heroesService.deleteCharacter(this.currentHero.id!);
         }),
         // * now whatever the result given by the method deleteCharacter we tap it to see what it is:
         tap((deleted) => {

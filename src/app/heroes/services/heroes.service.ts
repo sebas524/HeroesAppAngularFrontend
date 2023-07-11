@@ -3,20 +3,10 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 import { HeroInterface } from '../interfaces/hero.interface';
 import { environments } from 'src/app/environments/environments';
-import { HeroRes, SavedHero } from '../interfaces/heroRes.interface';
-import {
-  AllHeroesInterface,
-  FoundHero,
-} from '../interfaces/allHeroes.interface';
+
+import { AllHeroesInterface } from '../interfaces/allHeroes.interface';
 import { CreateHeroResInterface } from '../interfaces/createHeroRes.interface';
-import {
-  GetHeroResInterface,
-  UserFound,
-} from '../interfaces/getHeroRes.interface';
-import {
-  UdateHeroResInterface,
-  UpdatedHero,
-} from '../interfaces/updateHeroRes.interface';
+import { GetHeroResInterface } from '../interfaces/getHeroRes.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +27,7 @@ export class HeroesService {
     };
   }
 
-  getHeroes(): Observable<FoundHero[]> {
+  getHeroes(): Observable<HeroInterface[]> {
     return this.http
       .get<AllHeroesInterface>(`${this.baseUrl}/api/heroes/allHeroes`)
       .pipe(
@@ -47,7 +37,7 @@ export class HeroesService {
       );
   }
 
-  getHeroById(id: string): Observable<UserFound | undefined> {
+  getHeroById(id: string): Observable<HeroInterface | undefined> {
     return this.http
       .get<GetHeroResInterface>(`${this.baseUrl}/api/heroes/hero/${id}`)
       .pipe(
@@ -67,7 +57,7 @@ export class HeroesService {
     );
   }
 
-  addCharacter(hero: HeroInterface): Observable<SavedHero> {
+  addCharacter(hero: HeroInterface): Observable<HeroInterface> {
     // * , hero will act as my Body (think of postman!!).
     return this.http
       .post<CreateHeroResInterface>(
@@ -81,14 +71,14 @@ export class HeroesService {
       );
   }
 
-  updateCharacter(hero: HeroInterface): Observable<UpdatedHero> {
-    if (!hero._id) {
+  updateCharacter(hero: HeroInterface): Observable<HeroInterface> {
+    if (!hero.id) {
       throw Error('hero name is required...');
     }
 
     // * , hero will act as my Body (think of postman!!).
-    return this.http.patch<UpdatedHero>(
-      `${this.baseUrl}/api/heroes/hero/${hero._id}`,
+    return this.http.patch<HeroInterface>(
+      `${this.baseUrl}/api/heroes/hero/${hero.id}`,
       this.heroWithOutIdProp(hero)
     );
   }
