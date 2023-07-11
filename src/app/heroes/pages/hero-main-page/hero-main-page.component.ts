@@ -19,7 +19,8 @@ export class HeroMainPageComponent implements OnInit {
     this.activatedRoute.params
       .pipe(
         tap((params) => {
-          return console.log({ params });
+          // return console.log({ params });
+          return console.log('params =>', params);
         }),
         // * we get the id inside params:
         switchMap(({ id }) => {

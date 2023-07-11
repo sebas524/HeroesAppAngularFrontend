@@ -9,6 +9,7 @@ import {
   FoundHero,
 } from '../interfaces/allHeroes.interface';
 import { CreateHeroResInterface } from '../interfaces/createHeroRes.interface';
+import { GetHeroResInterface } from '../interfaces/getHeroRes.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -40,12 +41,17 @@ export class HeroesService {
   }
 
   getHeroById(id: string): Observable<HeroInterface | undefined> {
-    return this.http.get<HeroInterface>(`${this.baseUrl}/api/hero/${id}`).pipe(
-      // * if invalid id, then that would return to us the assigned error from the backend. but we need to  return  an observable, therefore:
-      catchError((err) => {
-        return of(undefined);
-      })
-    );
+    return this.http
+      .get<GetHeroResInterface>(`${this.baseUrl}/api/heroes/hero/${id}`)
+      .pipe(
+        map((res) => {
+          return res.userFound;
+        }),
+        // * if invalid id, then that would return to us the assigned error from the backend. but we need to  return  an observable, therefore:
+        catchError((err) => {
+          return of(undefined);
+        })
+      );
   }
 
   getHeroesByLetter(letter: string): Observable<HeroInterface[]> {
