@@ -7,7 +7,7 @@ import { HeroInterface } from '../interfaces/hero.interface';
 export class MyImgPipe implements PipeTransform {
   transform(hero: HeroInterface): string {
     if (!hero.photo) {
-      return 'assets/no-image.jpeg';
+      return 'https://tanzolymp.com/images/default-non-user-no-photo-1.jpg';
     }
     return hero.photo;
   }

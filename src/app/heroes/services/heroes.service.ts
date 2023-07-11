@@ -9,7 +9,14 @@ import {
   FoundHero,
 } from '../interfaces/allHeroes.interface';
 import { CreateHeroResInterface } from '../interfaces/createHeroRes.interface';
-import { GetHeroResInterface } from '../interfaces/getHeroRes.interface';
+import {
+  GetHeroResInterface,
+  UserFound,
+} from '../interfaces/getHeroRes.interface';
+import {
+  UdateHeroResInterface,
+  UpdatedHero,
+} from '../interfaces/updateHeroRes.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -40,7 +47,7 @@ export class HeroesService {
       );
   }
 
-  getHeroById(id: string): Observable<HeroInterface | undefined> {
+  getHeroById(id: string): Observable<UserFound | undefined> {
     return this.http
       .get<GetHeroResInterface>(`${this.baseUrl}/api/heroes/hero/${id}`)
       .pipe(
@@ -60,7 +67,7 @@ export class HeroesService {
     );
   }
 
-  addCharacter(hero: HeroInterface): Observable<HeroInterface> {
+  addCharacter(hero: HeroInterface): Observable<SavedHero> {
     // * , hero will act as my Body (think of postman!!).
     return this.http
       .post<CreateHeroResInterface>(
@@ -74,14 +81,14 @@ export class HeroesService {
       );
   }
 
-  updateCharacter(hero: HeroInterface): Observable<HeroInterface> {
+  updateCharacter(hero: HeroInterface): Observable<UpdatedHero> {
     if (!hero._id) {
       throw Error('hero name is required...');
     }
 
     // * , hero will act as my Body (think of postman!!).
-    return this.http.patch<HeroInterface>(
-      `${this.baseUrl}/api/hero/${hero._id}`,
+    return this.http.patch<UpdatedHero>(
+      `${this.baseUrl}/api/heroes/hero/${hero._id}`,
       this.heroWithOutIdProp(hero)
     );
   }

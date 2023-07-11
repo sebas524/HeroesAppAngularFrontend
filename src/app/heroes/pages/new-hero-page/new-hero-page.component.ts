@@ -120,7 +120,7 @@ export class NewHeroPageComponent implements OnInit {
           `${hero.superhero} has been successfully created!`
         );
         // * navigate to new hero:
-        this.router.navigate(['/heroes', hero.superhero]);
+        this.router.navigate(['/heroes', hero.id]);
       });
   }
 
