@@ -8,6 +8,7 @@ import { AllHeroesInterface } from '../interfaces/allHeroes.interface';
 import { CreateHeroResInterface } from '../interfaces/createHeroRes.interface';
 import { GetHeroResInterface } from '../interfaces/getHeroRes.interface';
 import { UpdateHeroResInterface } from '../interfaces/updateHeroRes.interface';
+import { SearchResInterface } from '../interfaces/searchRes.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -53,9 +54,13 @@ export class HeroesService {
   }
 
   getHeroesByLetter(letter: string): Observable<HeroInterface[]> {
-    return this.http.get<HeroInterface[]>(
-      `${this.baseUrl}/api/heroes/search/${letter}`
-    );
+    return this.http
+      .get<SearchResInterface>(`${this.baseUrl}/api/heroes/search/${letter}`)
+      .pipe(
+        map((res) => {
+          return res.foundHeroes;
+        })
+      );
   }
 
   addCharacter(hero: HeroInterface): Observable<HeroInterface> {

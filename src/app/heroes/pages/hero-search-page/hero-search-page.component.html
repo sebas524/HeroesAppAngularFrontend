@@ -12,7 +12,10 @@
       (optionSelected)="onOptionSelected($event)"
     >
       <ng-container *ngIf="heroes.length > 0; else noResults">
-        <mat-option *ngFor="let hero of heroes" [value]="hero.superhero">
+        <!-- ! important: [value]="hero.id" allows you to extract the id when using on the ts file:     const selectedResult = event.option.value;
+ -->
+        <mat-option *ngFor="let hero of heroes" [value]="hero.id">
+          <!-- ! hero,superhero es just whats going to show up to the user, but the value will be the id -->
           {{ hero.superhero | titlecase }}
         </mat-option>
       </ng-container>

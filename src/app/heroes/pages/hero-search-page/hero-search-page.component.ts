@@ -13,16 +13,16 @@ import { Router } from '@angular/router';
 export class HeroSearchPageComponent implements OnInit {
   private heroesService = inject(HeroesService);
   private router = inject(Router);
+
   public searchControl = new FormControl();
   public heroes: HeroInterface[] = [];
+  public hero: HeroInterface | undefined;
 
   constructor() {}
   ngOnInit(): void {
     this.searchControl.valueChanges
       .pipe(
         switchMap((query) => {
-          console.log(query);
-
           if (query) {
             return this.heroesService.getHeroesByLetter(query);
           } else {
@@ -32,11 +32,13 @@ export class HeroSearchPageComponent implements OnInit {
       )
       .subscribe((results) => {
         this.heroes = results;
+        console.log('OOOOOOOO', results);
       });
   }
 
   onOptionSelected(event: any) {
     const selectedResult = event.option.value;
+
     console.log('XXX: ', selectedResult);
 
     // Redirect to the desired route based on the selected result
