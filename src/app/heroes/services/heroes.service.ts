@@ -92,13 +92,15 @@ export class HeroesService {
 
   deleteCharacter(superheroName: string): Observable<boolean> {
     // * , hero will act as my Body (think of postman!!).
-    return this.http.delete(`${this.baseUrl}/api/hero/${superheroName}`).pipe(
-      map((res) => {
-        return true;
-      }),
-      catchError(() => {
-        return of(false);
-      })
-    );
+    return this.http
+      .delete(`${this.baseUrl}/api/heroes/hero/${superheroName}`)
+      .pipe(
+        map((res) => {
+          return true;
+        }),
+        catchError(() => {
+          return of(false);
+        })
+      );
   }
 }
