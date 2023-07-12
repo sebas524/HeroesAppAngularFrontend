@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { switchMap } from 'rxjs';
+import { Subscription, switchMap } from 'rxjs';
 import { HeroesService } from '../../services/heroes.service';
 import { HeroInterface } from '../../interfaces/hero.interface';
 import { Router } from '@angular/router';
@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class HeroSearchPageComponent implements OnInit {
   private heroesService = inject(HeroesService);
   private router = inject(Router);
+  private searchSubscription: Subscription | undefined;
 
   public searchControl = new FormControl();
   public heroes: HeroInterface[] = [];
@@ -20,12 +21,14 @@ export class HeroSearchPageComponent implements OnInit {
 
   constructor() {}
   ngOnInit(): void {
-    this.searchControl.valueChanges
+    this.searchSubscription = this.searchControl.valueChanges
       .pipe(
         switchMap((query) => {
           if (query) {
             return this.heroesService.getHeroesByLetter(query);
           } else {
+            // Clear the heroes array when the query is empty
+            this.heroes = [];
             return [];
           }
         })
