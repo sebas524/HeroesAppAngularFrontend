@@ -21,6 +21,8 @@ export class HeroSearchPageComponent implements OnInit {
     this.searchControl.valueChanges
       .pipe(
         switchMap((query) => {
+          console.log(query);
+
           if (query) {
             return this.heroesService.getHeroesByLetter(query);
           } else {

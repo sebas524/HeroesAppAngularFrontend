@@ -54,7 +54,7 @@ export class HeroesService {
 
   getHeroesByLetter(letter: string): Observable<HeroInterface[]> {
     return this.http.get<HeroInterface[]>(
-      `${this.baseUrl}/api/hero?letter=${letter}`
+      `${this.baseUrl}/api/heroes/search/${letter}`
     );
   }
 
