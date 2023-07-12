@@ -25,7 +25,7 @@ export class NewHeroPageComponent implements OnInit {
   private dialog = inject(MatDialog);
 
   public myForm: FormGroup = this.fb.group({
-    _id: [],
+    id: [],
     superhero: ['', [Validators.required, Validators.minLength(1)], []],
     alterEgo: ['', [Validators.required, Validators.minLength(1)], []],
     firstAppearance: ['', [Validators.required, Validators.minLength(1)], []],
@@ -101,8 +101,10 @@ export class NewHeroPageComponent implements OnInit {
             `${hero.superhero} has been successfully updated!`
           );
 
+          console.log('PROBLEM =>', hero.id);
+
           // * navigate to updated hero:
-          this.router.navigate(['/heroes', hero.superhero]);
+          this.router.navigate(['/heroes', hero.id]);
         });
     }
 

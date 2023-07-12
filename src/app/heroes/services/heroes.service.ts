@@ -7,6 +7,7 @@ import { environments } from 'src/app/environments/environments';
 import { AllHeroesInterface } from '../interfaces/allHeroes.interface';
 import { CreateHeroResInterface } from '../interfaces/createHeroRes.interface';
 import { GetHeroResInterface } from '../interfaces/getHeroRes.interface';
+import { UpdateHeroResInterface } from '../interfaces/updateHeroRes.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -77,10 +78,16 @@ export class HeroesService {
     }
 
     // * , hero will act as my Body (think of postman!!).
-    return this.http.patch<HeroInterface>(
-      `${this.baseUrl}/api/heroes/hero/${hero.id}`,
-      this.heroWithOutIdProp(hero)
-    );
+    return this.http
+      .patch<UpdateHeroResInterface>(
+        `${this.baseUrl}/api/heroes/hero/${hero.id}`,
+        this.heroWithOutIdProp(hero)
+      )
+      .pipe(
+        map((res) => {
+          return res.updatedHero;
+        })
+      );
   }
 
   deleteCharacter(superheroName: string): Observable<boolean> {
